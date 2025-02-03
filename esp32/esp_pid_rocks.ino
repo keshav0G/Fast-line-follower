@@ -1,4 +1,5 @@
-// Motor A Pins (Left Motor)
+// code for fast line solver based on esp32 and l298n motor driver
+
 #define ENA 19   // PWM pin for Motor A speed control
 #define IN1 18   // Direction pin 1 for Motor A
 #define IN2 5    // Direction pin 2 for Motor A
@@ -19,13 +20,13 @@ unsigned int wait2 = 500;
 const int sensorPins[6] = {13,12,14,27,26,25};
 int sensorValues[6];  // Store sensor readings
 
-const int white_limit = 100;  // Adjust based on calibration
-const int black_limit = 1300;  // Adjust based on calibration
+const int white_limit = 100;  
+const int black_limit = 1300;  
 
 // PID Variables
 float Kp = 0.01, Ki = 0, Kd = 0;
 float error = 0, previousError = 0, totalError = 0;
-int baseSpeed = 120;  // Base speed for both motors
+int baseSpeed = 120;  
 
 
 void setup() {
@@ -55,17 +56,17 @@ float computeError() {
   float totalActiveSensors = 0;
 
   for (int i = 0; i < 6; i++) {
-    if (sensorValues[i] < black_limit) {  // Sensor on the line
+    if (sensorValues[i] < black_limit) {  
       weightedSum += weights[i];
       totalActiveSensors++;
     }
   }
 
   if (totalActiveSensors == 0) {
-    return (previousError > 0) ? 2 : -2;  // Turn in the direction of previous error
+    return (previousError > 0) ? 2 : -2; 
   }
 
-  return weightedSum / totalActiveSensors;  // Average error
+  return weightedSum / totalActiveSensors;  
 }
 
 void applyPIDControl() {
@@ -180,28 +181,6 @@ void applyPIDControl() {
 
 void loop() {
   readSensorValues();
-//   stopflag =  digitalRead(stopPin);
-//   uint16_t leftFar = sensorValues[0];
-//   uint16_t leftNear = sensorValues[1];
-//   uint16_t Centre = sensorValues[2];
-//   uint16_t rightNear = sensorValues[3];
-//   uint16_t rightFar = sensorValues[4];
-//   if (leftFar < black_limit && leftNear < black_limit) {
-// //     Serial.println("left"); 
-//        moveLeft();
-// //     delay(wait);  
-// //     applyPIDControl();
-// //     delay(wait2); 
-//   }
-//   else if (rightFar < black_limit && rightNear < black_limit && leftFar > white_limit && leftNear > white_limit) {
-//     moveRight();
-//   }
-//   if (stopPin == 0) {
-//     STOP(100);
-//   }
-//   else {
-//    applyPIDControl();
-//  }
-  //delay(50);  // Small delay for readability
+
 applyPIDControl();
 }
