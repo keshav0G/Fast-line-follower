@@ -1,3 +1,5 @@
+//code for arduino uno with adafruit l293 motor driver sheild
+
 #include <AFMotor.h>
 
 int stopPin = A5;
@@ -9,18 +11,18 @@ unsigned int wait2 = 500;
 AF_DCMotor motorRight(4);
 AF_DCMotor motorLeft(3);
 
-// Define the analog pins for the IR sensors
-const int sensorPins[5] = {A0, A1, A2, A3, A4};
-int sensorValues[5];  // Store sensor readings
 
-// Threshold values for white (no line) and black (line)
+const int sensorPins[5] = {A0, A1, A2, A3, A4};
+int sensorValues[5];  
+
+
 const int white_limit = 200;  // Adjust based on calibration
-const int black_limit = 100;  // Adjust based on calibration
+const int black_limit = 100; 
 
 // PID Variables
 float Kp = 114.5, Ki = 0.0, Kd =27.5;
 float error = 0, previousError = 0, totalError = 0;
-int baseSpeed = 200;  // Base speed for both motors
+int baseSpeed = 200;  
 
 void Forward(){
   // motorLeft.setSpeed(baseSpeed);
@@ -207,28 +209,6 @@ void applyPIDControl() {
 
 void loop() {
   readSensorValues();
-//   stopflag =  digitalRead(stopPin);
-//   uint16_t leftFar = sensorValues[0];
-//   uint16_t leftNear = sensorValues[1];
-//   uint16_t Centre = sensorValues[2];
-//   uint16_t rightNear = sensorValues[3];
-//   uint16_t rightFar = sensorValues[4];
-//   if (leftFar < black_limit && leftNear < black_limit) {
-// //     Serial.println("left"); 
-//        moveLeft();
-// //     delay(wait);  
-// //     applyPIDControl();
-// //     delay(wait2); 
-//   }
-//   else if (rightFar < black_limit && rightNear < black_limit && leftFar > white_limit && leftNear > white_limit) {
-//     moveRight();
-//   }
-//   if (stopPin == 0) {
-//     STOP(100);
-//   }
-//   else {
-//    applyPIDControl();
-//  }
-  //delay(50);  // Small delay for readability
+
 applyPIDControl();
 }
